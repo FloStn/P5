@@ -1,0 +1,9 @@
+{
+    "require": {
+        "twbs/bootstrap": "v3.3.7",
+        "drmonty/animate.css": "^3.5",
+        "fortawesome/font-awesome": "^4.7",
+        "components/jquery": "v2.2.4",
+        "dimsemenov/magnific-popup": "^1.1"
+    }
+}
