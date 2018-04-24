@@ -69,7 +69,7 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
                   <ul class="list-inline">
                     <li>
                       <span class="the-author">
-                        <a href="#"><?= $post->author() ?></a>
+                        <a href="#"><?= $post->authorModel()->name() ?> <?= $post->authorModel()->surname() ?></a>
                       </span>
                     </li>
                     <li>
