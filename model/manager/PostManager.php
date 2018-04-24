@@ -2,6 +2,7 @@
 
 require_once("Manager.php");
 require_once("model/PostModel.php");
+require_once("model/UserModel.php");
 
 class PostManager extends Manager
 {
@@ -119,12 +120,15 @@ class PostManager extends Manager
   public function getPosts($start, $postsByPage)
   {
     $db = $this->dbConnect();
-    $req = $db->query('SELECT idPost, title, chapo, content, author, img, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, DATE_FORMAT(lastModifDateTime, \'%d/%m/%Y à %Hh%i\') AS lastModifDateTimeFr FROM posts ORDER BY idPost DESC LIMIT '.$start.','.$postsByPage);
+    $req = $db->query('SELECT idPost, title, chapo, content, author, img, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, DATE_FORMAT(lastModifDateTime, \'%d/%m/%Y à %Hh%i\') AS lastModifDateTimeFr, users.name, users.surname FROM posts JOIN users ON posts.author = users.idUser ORDER BY idPost DESC LIMIT '.$start.','.$postsByPage);
+    
     $post = [];
     foreach($req->fetchAll() as $row)
     {
-    $postModel = new PostModel($row);
-    $post[] = $postModel;
+      $postModel = new PostModel($row);
+      $userModel = new UserModel($row);
+      $postModel->setAuthorModel($userModel);
+      $post[] = $postModel;
     }
     $req->closeCursor();
     return $post;
@@ -138,6 +142,21 @@ class PostManager extends Manager
     $post = $req->fetch();
     $postModel = new PostModel($post);
 
+    return $postModel;
+  }
+
+  public function getAuthorModel($post)
+  {
+    $db = $this->dbConnect();
+    $req = $db->prepare('SELECT posts.*,users.name, users.surname FROM posts JOIN users ON posts.author = users.idUser WHERE posts.idPost = ?');
+    $req->execute(array(
+    'post' => $post));
+    $post = $req->fetch();
+
+    $postModel = new PostModel($post);
+    $userModel = new UserModel($post);
+    $postModel->setAuthorModel($userModel);
+    $req->closeCursor();
     return $postModel;
   }
 }

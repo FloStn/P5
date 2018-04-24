@@ -10,7 +10,7 @@ class PostModel
   private $_author;
   private $_addDateTimeFr;
   private $_lastModifDateTimeFr;
-  private $_lastModifAuthor;
+  private $_authorModel;
 
   public function __construct(array $donnees)
   {
@@ -69,9 +69,9 @@ class PostModel
     return $this->_lastModifDateTimeFr;
   }
 
-  public function lastModifAuthor()
+  public function authorModel()
   {
-    return $this->_lastModifAuthor;
+    return $this->_authorModel;
   }
 
   public function setIdPost($idPost)
@@ -126,8 +126,8 @@ class PostModel
     $this->_lastModifDateTimeFr = $lastModifDateTimeFr;
   }
 
-  public function setLastModifAuthor($lastModifAuthor)
+  public function setAuthorModel($authorModel)
   {
-    $this->_lastModifAuthor = (int) $lastModifAuthor;
+    $this->_authorModel = $authorModel;
   }
 }
