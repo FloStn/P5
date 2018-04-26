@@ -122,8 +122,8 @@ if($navbar == true)
             else
             {
             ?>
-            <li><a href="view/signUpView.php">Inscription</a></li>
-            <li><a href="view/signInView.php">Connexion</a></li>
+            <li><a href="index.php?action=signup_view">Inscription</a></li>
+            <li><a href="index.php?action=signin_view">Connexion</a></li>
             <?php
             }
             ?>

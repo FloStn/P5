@@ -37,6 +37,47 @@ function deconnection()
   session_destroy();
 }
 
+function forgotPassword()
+{
+  $userManager = new UserManager();
+  if(isset($_POST['email']) AND !empty($_POST['email']))
+  {
+    $email = htmlspecialchars($_POST['email']);
+    $user = $userManager->getUserByEmail($email);
+    if(!empty($user))
+    {
+      $from_email = 'flo.stein9578@yahoo.fr';
+      $name = $user->name();
+      $size_password = 12;
+      $new_password = $userManager->genPassword($size_password);
+      $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+      $userManager->setPassword($new_password_hash, $user->idUser());
+  
+      $emailTo = $email;
+      $subject = 'Réinitialisation de votre mot de passe - Blog Projet 5 OpenClassrooms.';
+      $body = "Bonjour $name, \n\nVoici votre nouveau mot de passe : $new_password \n\nSi celui-ci ne vous convient pas, vous pouvez le modifier dans vos paramètres de compte. \n\nA bientôt !";
+      $headers = 'From: '.$from_email."\r\n" .
+            'Reply-To: '.$from_email."\r\n";
+    
+      if (mail($emailTo, $subject, $body, $headers)) {
+        header("Location: index.php?action=forgot_password_view&state=success");
+      }
+      else
+      {
+        header("Location: index.php?action=forgot_password_view&state=unknown_error");
+      }
+    }
+    else
+    {
+      header("Location: index.php?action=forgot_password_view&state=error");
+    }
+  }
+  else
+  {
+    throw new Exception('Vous n\'avez pas indiqué votre adresse email');
+  }
+}
+
 function getInfos()
 {
   session_start();

@@ -8,16 +8,16 @@ $scrollup = false;
 
 $cssFiles = ['<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">',
              '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">',
-             '<link href="../vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">',
-             '<link href="../vendor/node-waves/waves.min.css" rel="stylesheet">',
-             '<link href="../vendor/drmonty/animate.css/css/animate.min.css" rel="stylesheet">',
-             '<link href="../public/css/admin/style.css" rel="stylesheet">'];
+             '<link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">',
+             '<link href="vendor/node-waves/waves.min.css" rel="stylesheet">',
+             '<link href="vendor/drmonty/animate.css/css/animate.min.css" rel="stylesheet">',
+             '<link href="public/css/admin/style.css" rel="stylesheet">'];
 
-$jsFiles = ['<script src="../vendor/components/jquery/jquery.min.js"></script>',
-            '<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>',
-            '<script src="../vendor/node-waves/waves.min.js"></script>',
-            '<script src="../vendor/jquery-validation/jquery.validate.js"></script>',
-            '<script src="../public/js/admin/admin.js"></script>'];
+$jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
+            '<script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>',
+            '<script src="vendor/node-waves/waves.min.js"></script>',
+            '<script src="vendor/jquery-validation/jquery.validate.js"></script>',
+            '<script src="public/js/admin/admin.js"></script>'];
 ?>
 
 <?php ob_start(); ?>
@@ -53,10 +53,10 @@ $jsFiles = ['<script src="../vendor/components/jquery/jquery.min.js"></script>',
                     </div>
                     <div class="row m-t-15 m-b--20">
                         <div class="col-xs-6">
-                            <a href="signUpView.php">Créer un compte !</a>
+                            <a href="index.php?action=signup_view">Créer un compte !</a>
                         </div>
                         <div class="col-xs-6 align-right">
-                            <a href="forgotPasswordView.php">Mot de passe oublié ?</a>
+                            <a href="index.php?action=forgot_password_view">Mot de passe oublié ?</a>
                         </div>
                     </div>
                 </form>

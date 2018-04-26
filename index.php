@@ -3,6 +3,7 @@
 require('controller/BlogController.php');
 require('controller/UserController.php');
 require('controller/AdminController.php');
+require('controller/ViewController.php');
 
 try
 {
@@ -31,9 +32,17 @@ try
         throw new Exception('Aucun identifiant envoyé');
       }
     }
+    elseif ($_GET['action'] == 'signup_view')
+    {
+      require("view/signUpView.php");
+    }
     elseif ($_GET['action'] == 'signup')
     {
       signUp();
+    }
+    elseif ($_GET['action'] == 'signin_view')
+    {
+      require("view/signInView.php");
     }
     elseif ($_GET['action'] == 'signin')
     {
@@ -42,6 +51,28 @@ try
     elseif ($_GET['action'] == 'deconnection')
     {
       deconnection();
+    }
+    elseif ($_GET['action'] == 'forgot_password_view')
+    {
+      if (isset($_GET['state']))
+      {
+        if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'unknown_error')
+        {
+          require("view/forgotPasswordView.php");
+        }
+        else
+        {
+          throw new Exception('Etat inconnu');
+        }
+      }
+      else
+      {
+        require("view/forgotPasswordView.php");
+      }
+    }
+    elseif ($_GET['action'] == 'forgotPassword')
+    {
+      forgotPassword();
     }
     elseif ($_GET['action'] == 'personnal_space')
     {

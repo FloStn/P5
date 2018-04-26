@@ -1,24 +1,21 @@
 <?php
 
 require_once('model/manager/PostManager.php');
-//require_once("model/PostModel.php");
 require_once('model/manager/CommentManager.php');
-//require_once("model/CommentModel.php");
 require_once('model/manager/UserManager.php');
 
 function listPosts()
 {
   session_start();
   $postManager = new PostManager();
-  $userManager = new UserManager();
 
   $_GET['page'] = intval($_GET['page']);
   $currentPage = $_GET['page'];
   $postsByPage = 4;
-  $videosTotales = $postManager->getPostsNumber();
+  $totalPosts = $postManager->getPostsNumber();
   
-  $pagesTotales = ceil($videosTotales/$postsByPage);
-  if($_GET['page'] <= $pagesTotales)
+  $totalPages = ceil($totalPosts/$postsByPage);
+  if($_GET['page'] <= $totalPages)
   {
     $start = ($currentPage-1)*$postsByPage;
   }
@@ -37,7 +34,7 @@ function post()
 
   $post = $postManager->getPost($_GET['id']);
   $comments = $commentManager->getComments($_GET['id']);
-  $user = $userManager->getUser($_SESSION['user']);
+  //$user = $userManager->getUser($_SESSION['user']);
   require('./view/blogPostView.php');
 }
 

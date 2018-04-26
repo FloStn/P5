@@ -93,7 +93,7 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
 				<center>
 					<ul class="pagination">
           <?php
-            for($i=1;$i<=$pagesTotales;$i++)
+            for($i=1;$i<=$totalPages;$i++)
             {   
            ?>
           <li class="page-item"><a class="page-link" href="index.php?action=listPosts&page=<?= $i ?>"><?= $i ?></a></li>
