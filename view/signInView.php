@@ -29,6 +29,36 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
         </div>
         <div class="card">
             <div class="body">
+
+            <?php
+            if(isset($_GET['state']))
+            {
+                if($_GET['state'] == 'error')
+                {
+                ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Erreur</h4>
+                        <p>Les identifiants saisis sont incorrects.</p>
+                        <hr>
+                        <p class="mb-0">Si vous rencontrez un problème, n'hésitez pas à me contacter.</p>
+                    </div>
+                <?php
+                }
+                elseif($_GET['state'] == 'success')
+                {
+                ?>
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Félicitations</h4>
+                        <p>Connexion réussie !</p>
+                        <hr>
+                        <p class="mb-0">Redirection vers l'accueil dans 3 secondes...</p>
+                    </div>
+                <?php
+                    header("Refresh: 3; url=index.php");
+                }
+            }
+            ?>
+
                 <form id="sign_in" action="index.php?action=signin" method="POST">
                     <div class="input-group">
                         <span class="input-group-addon">

@@ -4,7 +4,7 @@ require_once('model/manager/UserManager.php');
 
 function signUp()
 {
-  if(!isset($_session['user']))
+  if(!isset($_SESSION['user']))
   {
     if(isset($_POST['name']) AND isset($_POST['surname']) AND isset($_POST['email']) AND isset($_POST['password']))
     {
@@ -38,24 +38,61 @@ function signUp()
       header("Location: index.php?action=signup_view&state=error");
     }
   }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function signIn()
 {
-  $userManager = new UserManager();
-  $infosConnection = $userManager->signIn($_POST['email'], $_POST['password']);
-  $isPasswordCorrect = password_verify($_POST['password'], $infosConnection['password']);
-
-  if(!$isPasswordCorrect)
+  session_start();
+  if(!isset($_SESSION['user']))
   {
-    echo "Identifiants incorrects !";
+    if(isset($_POST['email']) AND isset($_POST['password']))
+    {
+      $email = htmlspecialchars($_POST['email']);
+      $password = htmlspecialchars($_POST['password']);
+
+      if(!empty($email) AND !empty($password))
+      {
+        $userManager = new UserManager();
+        $infosConnection = $userManager->getUserByEmail($email);
+
+        if(!empty($infosConnection))
+        {
+          $isPasswordCorrect = password_verify($password, $infosConnection->password());
+
+          if($isPasswordCorrect)
+          {
+            $user = $infosConnection;
+            session_start();
+            $_SESSION['user'] = $user->idUser();
+            header("Location: index.php");
+          }
+          else
+          {
+            header("Location: index.php?action=signin_view&state=error");
+          }
+        }
+        else
+        {
+          header("Location: index.php?action=signin_view&state=error");
+        }
+      }
+      else
+      {
+        header("Location: index.php?action=signin_view&state=error");
+      }
+    }
+    else
+    {
+      header("Location: index.php?action=signin_view&state=error");
+    }
   }
   else
   {
-    echo "Connexion réussie !";
-    $user = $userManager->getUser($infosConnection['idUser']);
-    session_start();
-    $_SESSION['user'] = $user->idUser();
+    header("Location: index.php");
   }
 }
 
@@ -68,44 +105,51 @@ function deconnection()
 
 function forgotPassword()
 {
-  if(isset($_POST['email']) AND !empty($_POST['email']))
+  session_start();
+  if(!isset($_SESSION['user']))
   {
-    $email = htmlspecialchars($_POST['email']);
-    $userManager = new UserManager();
-    $user = $userManager->getUserByEmail($email);
-    if(!empty($user))
+    if(isset($_POST['email']) AND !empty($_POST['email']))
     {
-      $from_email = 'flo.stein9578@yahoo.fr';
-      $name = $user->name();
-      $size_password = 12;
-      $new_password = $userManager->genPassword($size_password);
-      $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-      $userManager->setPassword($new_password_hash, $user->idUser());
-  
-      $emailTo = $email;
-      $subject = 'Réinitialisation de votre mot de passe - Blog Projet 5 OpenClassrooms.';
-      $body = "Bonjour $name, \n\nVoici votre nouveau mot de passe : $new_password \n\nSi celui-ci ne vous convient pas, vous pouvez le modifier dans vos paramètres de compte. \n\nA bientôt !";
-      $headers = 'From: '.$from_email."\r\n" .
-            'Reply-To: '.$from_email."\r\n";
+      $email = htmlspecialchars($_POST['email']);
+      $userManager = new UserManager();
+      $user = $userManager->getUserByEmail($email);
+      if(!empty($user))
+      {
+        $from_email = 'flo.stein9578@yahoo.fr';
+        $name = $user->name();
+        $size_password = 12;
+        $new_password = $userManager->genPassword($size_password);
+        $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
     
-      if (mail($emailTo, $subject, $body, $headers)) {
-        header("Location: index.php?action=forgot_password_view&state=success");
+        $emailTo = $email;
+        $subject = 'Réinitialisation de votre mot de passe - Blog Projet 5 OpenClassrooms.';
+        $body = "Bonjour $name, \n\nVoici votre nouveau mot de passe : $new_password \n\nSi celui-ci ne vous convient pas, vous pouvez le modifier dans vos paramètres de compte. \n\nA bientôt !";
+        $headers = 'From: '.$from_email."\r\n" .
+              'Reply-To: '.$from_email."\r\n";
+      
+        if (mail($emailTo, $subject, $body, $headers))
+        {
+          $userManager->setPassword($new_password_hash, $user->idUser());
+          header("Location: index.php?action=forgot_password_view&state=success");
+        }
+        else
+        {
+          header("Location: index.php?action=forgot_password_view&state=unknown_error");
+        }
       }
       else
       {
-        header("Location: index.php?action=forgot_password_view&state=unknown_error");
+        header("Location: index.php?action=forgot_password_view&state=error");
       }
     }
     else
     {
-      $error = 'L\'adresse email n\'existe pas !';
-      require("view/forgotPasswordView.php");
-      //header("Location: index.php?action=forgot_password_view&state=error");
+      header("Location: index.php?action=forgot_password_view&state=error");
     }
   }
   else
   {
-    throw new Exception('Vous n\'avez pas indiqué votre adresse email');
+    header("Location: index.php?action=forgot_password_view&state=error");
   }
 }
 

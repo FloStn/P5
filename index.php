@@ -33,33 +33,80 @@ try
     }
     elseif ($_GET['action'] == 'signup_view')
     {
-      if (isset($_GET['state']))
+      session_start();
+      if (!isset($_SESSION['user']))
       {
-        if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'error_email_already_use')
+        if (isset($_GET['state']))
         {
-          require("view/signupView.php");
+          if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'error_email_already_use')
+          {
+            require("view/signupView.php");
+          }
+          else
+          {
+            header("Location: index.php");
+            exit();
+          }
         }
         else
         {
-          throw new Exception('Etat inconnu');
+        require("view/signUpView.php");
         }
       }
       else
       {
-      require("view/signUpView.php");
+        header("Location: index.php");
       }
     }
     elseif ($_GET['action'] == 'signup')
     {
-      signUp();
+      session_start();
+      if (!isset($_SESSION['user']))
+      {
+        signUp();
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'signin_view')
     {
-      require("view/signInView.php");
+      session_start();
+      if (!isset($_SESSION['user']))
+      {
+        if (isset($_GET['state']))
+        {
+          if ($_GET['state'] == 'success' || $_GET['state'] == 'error')
+          {
+            require("view/signinView.php");
+          }
+          else
+          {
+            header("Location: index.php");
+          }
+        }
+        else
+        {
+          require("view/signinView.php");
+        }
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'signin')
     {
+      session_start();
+      if (!isset($_SESSION['user']))
+      {
       signIn();
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'deconnection')
     {
@@ -67,26 +114,41 @@ try
     }
     elseif ($_GET['action'] == 'forgot_password_view')
     {
-      /*if (isset($_GET['state']))
+      session_start();
+      if (!isset($_SESSION['user']))
       {
-        if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'unknown_error')
+        if (isset($_GET['state']))
         {
-          require("view/forgotPasswordView.php");
+          if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'unknown_error')
+          {
+            require("view/forgotPasswordView.php");
+          }
+          else
+          {
+            header("Location: index.php");
+          }
         }
         else
         {
-          throw new Exception('Etat inconnu');
+          require("view/forgotPasswordView.php");
         }
       }
       else
       {
-        require("view/forgotPasswordView.php");
-      }*/
-      require("view/forgotPasswordView.php");
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'forgotPassword')
     {
-      forgotPassword();
+      session_start();
+      if (!isset($_SESSION['user']))
+      {
+        forgotPassword();
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'personnal_space')
     {

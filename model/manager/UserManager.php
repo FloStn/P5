@@ -46,18 +46,6 @@ class UserManager extends Manager
     $req->closeCursor();
   }
 
-  public function signIn($email, $pass)
-  {
-    $db = $this->dbConnect();
-    $req = $db->prepare('SELECT idUser, password FROM users WHERE email = :email');
-    $req->execute(array(
-        'email' => $email));
-    $result = $req->fetch();
-    $req->closeCursor();
-
-    return $result;
-  }
-
   public function checkIfEmailExist($email)
   {
     $db = $this->dbConnect();

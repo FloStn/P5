@@ -61,16 +61,6 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
             <?php
                 }
             }
-
-            if(isset($error))
-            {
-            ?>
-                <div class="alert alert-danger" role="alert">
-                        <h4 class="alert-heading">Adresse email introuvable</h4>
-                            <p>L'adresse que vous avez renseignée n'est liée à aucun compte.</p>
-                    </div>
-            <?php
-            }
             ?>
 
                 <form id="forgot_password" action="index.php?action=forgotPassword" method="POST">

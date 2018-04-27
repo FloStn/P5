@@ -108,7 +108,7 @@ class UserModel
 
   public function setPassword($password)
   {
-    if (is_string($password) && strlen($password) <= 30)
+    if (is_string($password) && strlen($password) <= 100)
     {
       $this->_password = $password;
     }
