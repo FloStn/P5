@@ -29,46 +29,51 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
         </div>
         <div class="card">
             <div class="body">
-                <form id="forgot_password" action="index.php?action=forgotPassword" method="POST">
-                <?php
-                if(isset($_GET['state']))
+
+            <?php
+            if(isset($_GET['state']))
+            {
+                if($_GET['state'] == 'success')
                 {
-                    if($_GET['state'] == 'success')
-                    {
-                ?>
+            ?>
                 <div class="alert alert-info" role="alert">
-                    <h4 class="alert-heading">Mot de passe réinitialisé !</h4>
+                    <h4 class="alert-heading">Mot de passe réinitialisé</h4>
                     <p>Un mail contenant votre nouveau mot de passe a été envoyé à l'adresse email que vous avez spécifiée.</p>
-                    <hr>
-                    <p class="mb-0">Si vous rencontrez un problème, n'hésitez pas à me contacter.</p>
-                </div>
-                <div class="row m-t-20 m-b--5 align-center">
-                    <a href="index.php">Retour</a>
-                </div>
-                <?php
-                    }
-                    elseif($_GET['state'] == 'error')
-                    {
-                        ?>
-                        <div class="alert alert-danger" role="alert">
-                            <h4 class="alert-heading">Adresse email introuvable !</h4>
-                            <p>L'adresse que vous avez renseignée n'est liée à aucun compte.</p>
-                            <hr>
-                            <p class="mb-0">Si vous rencontrez un problème, n'hésitez pas à me contacter.</p>
-                        </div>
-                        <div class="row m-t-20 m-b--5 align-center">
-                            <a href="index.php?action=forgot_password_view">Retour</a>
-                        </div>
-                        <?php
-                    }
-                    else
-                    {
-                        header("Location: index.php");
-                    }
+                </div> 
+            <?php
                 }
-                else
+                elseif($_GET['state'] == 'error')
                 {
-                    ?>
+            ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Adresse email introuvable</h4>
+                            <p>L'adresse que vous avez renseignée n'est liée à aucun compte.</p>
+                    </div>
+            <?php
+                }
+                elseif($_GET['state'] == 'unknown_error')
+                {
+            ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Erreur</h4>
+                            <p>Une erreur a été rencontrée. Veuillez rééssayer ultérieurement.</p>
+                    </div>
+            <?php
+                }
+            }
+
+            if(isset($error))
+            {
+            ?>
+                <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Adresse email introuvable</h4>
+                            <p>L'adresse que vous avez renseignée n'est liée à aucun compte.</p>
+                    </div>
+            <?php
+            }
+            ?>
+
+                <form id="forgot_password" action="index.php?action=forgotPassword" method="POST">
                     <div class="msg">
                     Saisissez votre adresse email ci-dessous.
                     <br>
@@ -88,11 +93,6 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
                 <div class="row m-t-20 m-b--5 align-center">
                     <a href="index.php?action=signin_view">J'ai bien reçu mon nouveau mot de passe !</a>
                 </div>
-                <?php
-                }
-                ?>
-
-                   
                 </form>
             </div>
         </div>

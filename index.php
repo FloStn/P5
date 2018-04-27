@@ -3,7 +3,6 @@
 require('controller/BlogController.php');
 require('controller/UserController.php');
 require('controller/AdminController.php');
-require('controller/ViewController.php');
 
 try
 {
@@ -34,7 +33,21 @@ try
     }
     elseif ($_GET['action'] == 'signup_view')
     {
+      if (isset($_GET['state']))
+      {
+        if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'error_email_already_use')
+        {
+          require("view/signupView.php");
+        }
+        else
+        {
+          throw new Exception('Etat inconnu');
+        }
+      }
+      else
+      {
       require("view/signUpView.php");
+      }
     }
     elseif ($_GET['action'] == 'signup')
     {
@@ -54,7 +67,7 @@ try
     }
     elseif ($_GET['action'] == 'forgot_password_view')
     {
-      if (isset($_GET['state']))
+      /*if (isset($_GET['state']))
       {
         if ($_GET['state'] == 'success' || $_GET['state'] == 'error' || $_GET['state'] == 'unknown_error')
         {
@@ -68,7 +81,8 @@ try
       else
       {
         require("view/forgotPasswordView.php");
-      }
+      }*/
+      require("view/forgotPasswordView.php");
     }
     elseif ($_GET['action'] == 'forgotPassword')
     {

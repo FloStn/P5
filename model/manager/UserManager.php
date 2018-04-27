@@ -58,6 +58,25 @@ class UserManager extends Manager
     return $result;
   }
 
+  public function checkIfEmailExist($email)
+  {
+    $db = $this->dbConnect();
+    $req = $db->prepare('SELECT email FROM users WHERE email = :email');
+    $req->execute(array(
+      ':email' => $email));
+    $result = $req->rowCount();
+    if($result > 0)
+    {
+      $req->closeCursor();
+      return 1;
+    }
+    else
+    {
+      $req->closeCursor();
+      return;
+    }
+  }
+
   public function getUserByEmail($email)
   {
     $db = $this->dbConnect();

@@ -29,7 +29,43 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
         </div>
         <div class="card">
             <div class="body">
-                <form id="sign_up" action="../index.php?action=signup" method="POST">
+
+            <?php
+            if(isset($_GET['state']))
+            {
+                if($_GET['state'] == 'error')
+                {
+                ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Erreur</h4>
+                        <p>Vérifiez que tous les champs sont saisis, puis rééssayez.</p>
+                        <hr>
+                        <p class="mb-0">Si vous rencontrez un problème, n'hésitez pas à me contacter.</p>
+                    </div>
+                <?php
+                }
+                elseif($_GET['state'] == 'error_email_already_use')
+                {
+                ?>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Erreur</h4>
+                        <p>L'adresse email est déjà associée à un compte.</p>
+                    </div>
+                <?php
+                }
+                elseif($_GET['state'] == 'success')
+                {
+                ?>
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Félicitations</h4>
+                        <p>Votre compte a bien été créé !</p>
+                    </div>
+                <?php
+                }
+            }
+            ?>
+            
+                <form id="sign_up" action="index.php?action=signup" method="POST">
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
@@ -70,14 +106,10 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
                             <input type="password" class="form-control" name="confirm" minlength="6" placeholder="Ressaisissez votre mot de passe" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
-                        <label for="terms">J'ai lu et accepte <a href="javascript:void(0);">les termes d'utilisation</a>.</label>
-                    </div>
                     <input class="btn btn-block btn-lg bg-pink waves-effect" type="submit" value="S'inscrire">
 
                     <div class="m-t-25 m-b--5 align-center">
-                        <a href="signInView.php">Vous êtes déjà membre ?</a>
+                        <a href="index.php?action=signin_view">Vous êtes déjà membre ?</a>
                     </div>
                 </form>
             </div>

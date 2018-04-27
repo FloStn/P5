@@ -29,7 +29,7 @@ $jsFiles = ['<script src="vendor/components/jquery/jquery.min.js"></script>',
         </div>
         <div class="card">
             <div class="body">
-                <form id="sign_in" action="../index.php?action=signin" method="POST">
+                <form id="sign_in" action="index.php?action=signin" method="POST">
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>

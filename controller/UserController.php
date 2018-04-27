@@ -1,14 +1,43 @@
 <?php
 
 require_once('model/manager/UserManager.php');
-//require_once('model/UserModel.php');
 
 function signUp()
 {
-  $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  $userManager = new UserManager();
-  $userManager->signUp($_POST['name'], $_POST['surname'], $_POST['email'], $password_hash);
-  //require('view/homeView.php');
+  if(!isset($_session['user']))
+  {
+    if(isset($_POST['name']) AND isset($_POST['surname']) AND isset($_POST['email']) AND isset($_POST['password']))
+    {
+      $name = htmlspecialchars($_POST['name']);
+      $surname = htmlspecialchars($_POST['surname']);
+      $email = htmlspecialchars($_POST['email']);
+      $password = htmlspecialchars($_POST['password']);
+
+      if(!empty($name) AND !empty($surname) AND !empty($email) AND !empty($password))
+      {
+        $userManager = new UserManager();
+
+        if(empty($userManager->checkIfEmailExist($email)))
+        {
+          $password_hash = password_hash($password, PASSWORD_DEFAULT);
+          $userManager->signUp($name, $surname, $email, $password_hash);
+          header("Location: index.php?action=signup_view&state=success");
+        }
+        else
+        {
+          header("Location: index.php?action=signup_view&state=error_email_already_use");
+        }
+      }
+      else
+      {
+        header("Location: index.php?action=signup_view&state=error");
+      }
+    }
+    else
+    {
+      header("Location: index.php?action=signup_view&state=error");
+    }
+  }
 }
 
 function signIn()
@@ -39,10 +68,10 @@ function deconnection()
 
 function forgotPassword()
 {
-  $userManager = new UserManager();
   if(isset($_POST['email']) AND !empty($_POST['email']))
   {
     $email = htmlspecialchars($_POST['email']);
+    $userManager = new UserManager();
     $user = $userManager->getUserByEmail($email);
     if(!empty($user))
     {
@@ -69,7 +98,9 @@ function forgotPassword()
     }
     else
     {
-      header("Location: index.php?action=forgot_password_view&state=error");
+      $error = 'L\'adresse email n\'existe pas !';
+      require("view/forgotPasswordView.php");
+      //header("Location: index.php?action=forgot_password_view&state=error");
     }
   }
   else
