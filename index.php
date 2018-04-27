@@ -110,7 +110,15 @@ try
     }
     elseif ($_GET['action'] == 'deconnection')
     {
-      deconnection();
+      session_start();
+      if (isset($_SESSION['user']))
+      {
+        deconnection();
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'forgot_password_view')
     {

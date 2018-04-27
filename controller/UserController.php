@@ -99,8 +99,15 @@ function signIn()
 function deconnection()
 {
   session_start();
-  session_unset('user');
-  session_destroy();
+  if(isset($_SESSION['user']))
+  {
+    session_unset('user');
+    session_destroy();
+  }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function forgotPassword()
