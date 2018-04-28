@@ -113,7 +113,7 @@ if($navbar == true)
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon compte<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="index.php?action=personnal_space">Espace personnel</a></li>
+                <li><a href="index.php?action=my_account">Espace personnel</a></li>
 								<li><a href="index.php?action=deconnection">Déconnexion</a></li>
               </ul>
             </li>

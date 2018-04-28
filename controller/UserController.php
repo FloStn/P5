@@ -98,11 +98,11 @@ function signIn()
 
 function deconnection()
 {
-  session_start();
   if(isset($_SESSION['user']))
   {
     session_unset('user');
     session_destroy();
+    header("Location: index.php");
   }
   else
   {
@@ -162,67 +162,138 @@ function forgotPassword()
 
 function getInfos()
 {
-  session_start();
-  //session_regenerate_id();
-  $userManager = new UserManager();
-  $user = $userManager->getUser($_SESSION['user']);
-  require("./view/accountView.php");
+  if(isset($_SESSION['user']))
+  {
+    $userManager = new UserManager();
+    $user = $userManager->getUser($_SESSION['user']);
+    require("./view/accountView.php");
+  }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function updateAccount()
 {
-  session_start();
-  $userManager = new UserManager();
-  //$user = $userManager->getUser($_SESSION['user']);
-  $user = $_SESSION['user'];
-  //$userModel = new UserModel($user);
-
-  if(isset($_FILES['avatar']) AND !empty($_FILES['avatar']['name']))
+  if(isset($_SESSION['user']))
   {
-    $tailleMax = 2097152;
-    $extensionsValides = array('jpg');
-    if($_FILES['avatar']['size'] <= $tailleMax)
+    $userManager = new UserManager();
+    $user = $_SESSION['user'];
+  
+    if(isset($_FILES['avatar']) AND !empty($_FILES['avatar']['name']))
     {
-      $extensionUpload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'), 1));
-      if(in_array($extensionUpload, $extensionsValides))
+      $sizeMax = 2097152;
+      $validExtensions = array('jpg', 'jpeg', 'png', 'gif');
+      if($_FILES['avatar']['size'] <= $sizeMax)
       {
-        $chemin = "./public/images/avatars/".$_SESSION['user'].".".$extensionUpload;
-        $resultat = move_uploaded_file($_FILES['avatar']['tmp_name'], $chemin);
-         if($resultat)
-         {
-           $userManager->setAvatar($chemin, $user);
-         }
+        $extensionUpload = strtolower(substr(strrchr($_FILES['avatar']['name'], '.'), 1));
+        if(in_array($extensionUpload, $validExtensions))
+        {
+          $path = "./public/images/avatars/".$_SESSION['user'].".".$extensionUpload;
+          $result = move_uploaded_file($_FILES['avatar']['tmp_name'], $path);
+
+           if($result)
+           {
+             $userManager->setAvatar($path, $user);
+           }
+           else
+           {
+             header("Refresh: 3; url=index.php?action=my_account");
+             throw new Exception("Un problème est survenu lors de l'importation de l'image.");
+             exit();
+           }
+        }
+        else
+        {
+          header("Refresh: 3; url=index.php?action=my_account");
+          throw new Exception("L'image doit être de type jpg, jpeg, png ou gif.");
+          exit();
+        }
+      }
+      else
+      {
+        header("Refresh: 3; url=index.php?action=my_account");
+        throw new Exception("La taille de l'image doit être inférieure à 2 MO.");
+        exit();
+      }
+    }
+  
+    if(isset($_POST['name']) AND !empty($_POST['name']))
+    {
+      $name = htmlspecialchars($_POST['name']);
+      if(is_string($name) AND strlen($name) <= 30)
+      {
+        $userManager->setName($name, $user);
+      }
+      else
+      {
+        header("Refresh: 3; url=index.php?action=my_account");
+        throw new Exception("Votre prénom est trop long... =(");
+        exit();
+      }
+    }
+
+    if(isset($_POST['surname']) AND !empty($_POST['surname']))
+    {
+      $surname = htmlspecialchars($_POST['surname']);
+      if(is_string($surname) AND strlen($surname) <= 30)
+      {
+        $userManager->setSurname($surname, $user);
+      }
+      else
+      {
+        header("Refresh: 3; url=index.php?action=my_account");
+        throw new Exception("Votre nom est trop long... =(");
+        exit();
+      }
+    }
+  
+    if(isset($_POST['email']) AND !empty($_POST['email']))
+    {
+      $email = htmlspecialchars($_POST['email']);
+      if (is_string($email) AND strlen($email) <= 30)
+      {
+        $userManager->setEmail($email, $user);
+      }
+      else
+      {
+        header("Refresh: 3; url=index.php?action=my_account");
+        throw new Exception("Votre email est trop long... =(");
+        exit();
+      }
+    }
+  
+    if(isset($_POST['new_password']) AND !empty($_POST['new_password']) AND isset($_POST['confirm_password']) AND !empty($_POST['confirm_password']))
+    {
+      $new_password = htmlspecialchars($_POST['new_password']);
+      $confirm_password = htmlspecialchars($_POST['confirm_password']);
+
+      if(is_string($new_password) AND strlen($new_password) <= 30 AND is_string($confirm_password) AND strlen($confirm_password) <= 30)
+      {
+        if($new_password == $confirm_password)
+        {
+          $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+          $userManager->setPassword($password_hash, $user);
+        }
+        else
+        {
+          header("Refresh: 3; url=index.php?action=my_account");
+          throw new Exception("Le mots de passe ne concordent pas.");
+          exit();
+        }
+      }
+      else
+      {
+        header("Refresh: 3; url=index.php?action=my_account");
+        throw new Exception("Le mot de passe ne doit pas dépasser 30 caractères.");
+        exit();
       }
     }
   }
-
-  if(isset($_POST['name']))
+  else
   {
-    $name = $_POST['name'];
-    if(is_string($name) && strlen($name) <= 30)
-    {
-      $userManager->setName($name, $user);
-    }
+    header("Location: index.php");
   }
-
-  if(isset($_POST['email']))
-  {
-    $email = $_POST['email'];
-    if (is_string($email) && strlen($email) <= 30)
-    {
-      $userManager->setEmail($email, $user);
-    }
-  }
-
-  if(isset($_POST['new_password']) && isset($_POST['confirm_password']))
-  {
-    if(is_string($_POST['new_password']) && strlen($_POST['new_password']) <= 30 && is_string($_POST['confirm_password']) && strlen($_POST['confirm_password']) <= 30)
-    {
-      if($_POST['new_password'] == $_POST['confirm_password'])
-      {
-        $password_hash = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-        $userManager->setPassword($password_hash, $user);
-      }
-    }
-  }
+  header("Location: index.php?action=my_account&state=success");
 }

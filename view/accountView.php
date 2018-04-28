@@ -49,13 +49,33 @@ $cssFiles = ['<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,
 
           <div class="col-md-4 col-md-push-4">
             <div class="biography">
+
+            <?php
+                if(isset($_GET['state']))
+                {
+                if($_GET['state'] == 'success')
+                {
+                ?>
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Félicitations</h4>
+                        <p>Vos informations ont été mises à jour !</p>
+                    </div>
+                <?php
+                }
+                }
+                ?>
+
               <div class="myphoto">
                 <img src="<?= $user->avatar() ?>" width="100%" height="100%" alt="">
               </div>
-              <form action="index.php?action=updateAccount" method="post" enctype="multipart/form-data">
+
+              <form action="index.php?action=updateAccount" method="POST" enctype="multipart/form-data">
                 <input type="file" name="avatar">
                 <hr>
                 <input type="text" name="name" class="form-control" id="name" value="<?= $user->name() ?>" required="">
+                <hr>
+                <hr>
+                <input type="text" name="surname" class="form-control" id="surname" value="<?= $user->surname() ?>" required="">
                 <hr>
                 <input type="text" name="email" class="form-control" id="email" value="<?= $user->email() ?>" required="">
                 <hr>
@@ -65,8 +85,9 @@ $cssFiles = ['<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,
                 <h6> Confirmer le nouveau mot de passe </h6>
                 <input type="password" name="confirm_password" class="form-control" id="confirm_password" value="">
                 <hr>
-                <input class="btn custom-btn" type="submit" value="Mettre à jour">
+                <center><input class="btn btn-info" type="submit" value="Mettre à jour"></center>
               </form>
+              <br>
             </div>
           </div> <!-- col-md-4 -->
 

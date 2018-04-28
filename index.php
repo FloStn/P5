@@ -158,9 +158,31 @@ try
         header("Location: index.php");
       }
     }
-    elseif ($_GET['action'] == 'personnal_space')
+    elseif ($_GET['action'] == 'my_account')
     {
-      getInfos();
+      session_start();
+      if (isset($_SESSION['user']))
+      {
+        if (isset($_GET['state']))
+        {
+          if ($_GET['state'] == 'success')
+          {
+            getInfos();
+          }
+          else
+          {
+            header("Location: index.php");
+          }
+        }
+        else
+        {
+          getInfos();
+        }
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'adminBlogPostsList')
     {
@@ -279,7 +301,15 @@ try
     }
     elseif ($_GET['action'] == 'updateAccount')
     {
-      updateAccount();
+      session_start();
+      if (isset($_SESSION['user']))
+      {
+        updateAccount();
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
   }
   else
