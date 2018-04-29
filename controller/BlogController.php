@@ -36,16 +36,16 @@ function post()
 
   $_GET['id'] = intval($_GET['id']);
   $post = $postManager->getPost($_GET['id']);
-    if(!empty($post))
-    {
-      $author = $userManager->getUser($post->author());
-      $comments = $commentManager->getComments($_GET['id']);
-      require('view/blogPostView.php');
-    }
-    else
-    {
-      header("Location: index.php");
-    }
+  if(!empty($post))
+  {
+    $author = $userManager->getUser($post->author());
+    $comments = $commentManager->getComments($_GET['id']);
+    require('view/blogPostView.php');
+  }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function addComment()

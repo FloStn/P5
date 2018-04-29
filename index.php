@@ -210,13 +210,28 @@ try
     }
     elseif ($_GET['action'] == 'adminBlogPostEdit')
     {
-      if (isset($_GET['id']) && $_GET['id'] > 0)
+      session_start();
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
-        blogPostEdit();
+        if ($_SESSION['role'] == 'Administrateur')
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0)
+          {
+            blogPostEdit();
+          }
+          else
+          {
+            header("Location: index.php");
+          }
+        }
+        else
+        {
+          header("Location: index.php");
+        }
       }
       else
       {
-        throw new Exception('Aucun identifiant envoyé');
+        header("location: index.php");
       }
     }
     elseif ($_GET['action'] == 'adminBlogPostUpdate')

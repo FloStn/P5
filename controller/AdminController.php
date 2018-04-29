@@ -16,7 +16,6 @@ function getUsersList()
 
 function getBlogPostsList()
 {
-  session_start();
   $postManager = new PostManager();
   $userManager = new UserManager();
   $admin = $userManager->getUser($_SESSION['user']);
@@ -39,12 +38,19 @@ function getBlogPostsList()
 
 function blogPostEdit()
 {
-  session_start();
   $postManager = new PostManager();
   $userManager = new UserManager();
   $admin = $userManager->getUser($_SESSION['user']);
+  $_GET['id'] = intval($_GET['id']);
   $post = $postManager->getPost($_GET['id']);
-  require('view/blogPostEditView.php');
+  if(!empty($post))
+  {
+    require('view/blogPostEditView.php');
+  }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function blogPostUpdate()
