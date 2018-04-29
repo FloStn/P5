@@ -35,18 +35,17 @@ function post()
   $userManager = new UserManager();
 
   $_GET['id'] = intval($_GET['id']);
-  $totalPosts = $postManager->getPostsCount();
-  if($_GET['id'] <= $totalPosts)
-  {
-    $post = $postManager->getPost($_GET['id']);
-    $author = $userManager->getUser($post->author());
-    $comments = $commentManager->getComments($_GET['id']);
-    require('view/blogPostView.php');
-  }
-  else
-  {
-    header("Location: index.php");
-  }
+  $post = $postManager->getPost($_GET['id']);
+    if(!empty($post))
+    {
+      $author = $userManager->getUser($post->author());
+      $comments = $commentManager->getComments($_GET['id']);
+      require('view/blogPostView.php');
+    }
+    else
+    {
+      header("Location: index.php");
+    }
 }
 
 function addComment()
