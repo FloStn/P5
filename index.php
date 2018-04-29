@@ -236,7 +236,22 @@ try
     }
     elseif ($_GET['action'] == 'adminUsersList')
     {
-      getUsersList();
+      session_start();
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
+      {
+        if ($_SESSION['role'] == 'Administrateur')
+        {
+          getUsersList();
+        }
+        else
+        {
+          header("Location: index.php");
+        }
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'adminCommentsList')
     {

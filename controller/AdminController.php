@@ -5,9 +5,9 @@ require_once('model/manager/CommentManager.php');
 
 function getUsersList()
 {
-  session_start();
   $adminManager = new AdminManager();
   $userManager = new UserManager();
+
   $users = $adminManager->getUsersList();
   $admin = $userManager->getUser($_SESSION['user']);
 

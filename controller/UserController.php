@@ -68,6 +68,7 @@ function signIn()
             $user = $infosConnection;
             session_start();
             $_SESSION['user'] = $user->idUser();
+            $_SESSION['role'] = $user->role();
             header("Location: index.php");
           }
           else
