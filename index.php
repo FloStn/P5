@@ -295,7 +295,22 @@ try
     }
     elseif ($_GET['action'] == 'adminBlogPostNewEdit')
     {
-        blogPostNewEdit();
+      session_start();
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
+      {
+        if ($_SESSION['role'] == 'Administrateur')
+        {
+          blogPostNewEdit();
+        }
+        else
+        {
+          header("Location: index.php");
+        }
+      }
+      else
+      {
+        header("Location: index.php");
+      }
     }
     elseif ($_GET['action'] == 'adminCreateNewPost')
     {

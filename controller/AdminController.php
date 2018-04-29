@@ -144,7 +144,6 @@ function blogPostUpdate()
 
 function blogPostNewEdit()
 {
-  session_start();
   $userManager = new UserManager();
   $admin = $userManager->getUser($_SESSION['user']);
   require('view/blogPostNewView.php');
