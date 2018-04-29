@@ -196,7 +196,14 @@ try
       {
         if ($_SESSION['role'] == 'Administrateur')
         {
-          getBlogPostsList();
+          if(isset($_GET['page']) && $_GET['page'] > 0)
+          {
+            getBlogPostsList();
+          }
+          else
+          {
+            header("Location: index.php");
+          }
         }
         else
         {
@@ -236,13 +243,27 @@ try
     }
     elseif ($_GET['action'] == 'adminBlogPostUpdate')
     {
-      if (isset($_GET['id']) && $_GET['id'] > 0)
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
-        blogPostUpdate();
+        if ($_SESSION['role'] == 'Administrateur')
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0)
+          {
+            blogPostUpdate();
+          }
+          else
+          {
+            header("Location: index.php");
+          }
+        }
+        else
+        {
+          header("Location: index.php");
+        }
       }
       else
       {
-        throw new Exception('Aucun identifiant envoyé');
+        header("Location: index.php");
       }
     }
     elseif ($_GET['action'] == 'adminBlogPostDelete')
