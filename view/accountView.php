@@ -50,18 +50,18 @@ $cssFiles = ['<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,
           <div class="col-md-4 col-md-push-4">
             <div class="biography">
 
-            <?php
+              <?php
                 if(isset($_GET['state']))
                 {
-                if($_GET['state'] == 'success')
-                {
+                  if($_GET['state'] == 'success')
+                  {
                 ?>
                     <div class="alert alert-info" role="alert">
                         <h4 class="alert-heading">Félicitations</h4>
                         <p>Vos informations ont été mises à jour !</p>
                     </div>
                 <?php
-                }
+                  }
                 }
                 ?>
 

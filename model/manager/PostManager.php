@@ -107,14 +107,14 @@ class PostManager extends Manager
     $req->closeCursor();
   }
 
-  public function getPostsNumber()
+  public function getPostsCount()
   {
     $db = $this->dbConnect();
     $req = $db->query('SELECT idPost FROM posts');
-    $row_number = $req->rowCount();
+    $rowCount = $req->rowCount();
 
     $req->closeCursor();
-    return $row_number;
+    return $rowCount;
   }
 
   public function getPosts($start, $postsByPage)
@@ -148,9 +148,9 @@ class PostManager extends Manager
   public function getAuthorModel($post)
   {
     $db = $this->dbConnect();
-    $req = $db->prepare('SELECT posts.*,users.name, users.surname FROM posts JOIN users ON posts.author = users.idUser WHERE posts.idPost = ?');
+    $req = $db->prepare('SELECT posts.*,users.name, users.surname FROM posts JOIN users ON posts.author = users.idUser WHERE posts.idPost = :post');
     $req->execute(array(
-    'post' => $post));
+    ':post' => $post));
     $post = $req->fetch();
 
     $postModel = new PostModel($post);

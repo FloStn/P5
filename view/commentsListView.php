@@ -65,9 +65,9 @@ $cssFiles = ['<link href="https://fonts.googleapis.com/css?family=Roboto:400,700
                                           $color = "";
                                       ?>
                                         <tr>
-                                            <td><?= $comment->post() ?></td>
+                                            <td><?= filter_var($comment->titleModel()->title(), FILTER_SANITIZE_STRING) ?></td>
                                             <td><?= $comment->content() ?></td>
-                                            <td><?= $comment->author() ?></td>
+                                            <td><?= $comment->authorModel()->name() ?> <?= $comment->authorModel()->surname() ?></td>
                                             <td><?= $comment->addDateTimeFr() ?></td>
                                             <?php
                                                 if($comment->state() == "En attente de validation")

@@ -37,11 +37,7 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
                   <br>
                   <span class="meta">Publié par
                     <b>
-                    <?php
-                    $usr = $userManager->getUser($post->author());
-                    echo $usr->surname();
-                    ?>
-                    <?= $usr->name(); ?>
+                    <?= $author->name() ?> <?= $author->surname(); ?>
                     </b> le <?= $post->addDateTimeFr() ?>.
                     <br>
                     <?php
@@ -75,9 +71,32 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
   <!-- Comments Form -->
   <div class="container">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <?php
+            if(isset($_GET['state']))
+            {
+                if($_GET['state'] == 'error')
+                {
+            ?>
+                <div class="alert alert-danger" role="alert">
+                  <h4 class="alert-heading">Erreur</h4>
+                  <p>Vous devez être connecté pour pouvoir commenter un article.</p>
+                </div> 
+            <?php
+                }
+                elseif($_GET['state'] == 'success')
+                {
+            ?>
+                <div class="alert alert-info" role="alert">
+                  <h4 class="alert-heading">Commentaire ajouté</h4>
+                  <p>Votre commentaire a été ajouté ! Vous devez cependant attendre qu'un Administrateur le valide pour qu'il apparaisse dans la liste des commentaires de l'article.</p>
+                </div>
+            <?php
+                }
+            }
+          ?>
       <h5 class="card-header">Commenter cet article:</h5>
       <div class="card-body">
-        <form action="index.php?action=newComment&idPost=<?= $_GET['id'] ?>" method="post">
+        <form action="index.php?action=newComment&idPost=<?= $_GET['id'] ?>" method="POST">
           <div class="form-group">
             <textarea class="form-control" rows="3" name="comment"></textarea>
           </div>
@@ -99,18 +118,11 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
       ?>
     <div class="media mb-4">
       <div class="pull-left">
-      <?php
-        $comment_author = $userManager->getUser($comment->author());
-        ?>
-      <img class="avatar-comment" src="<?= $comment_author->avatar() ?>" alt="avatar">
+      <img class="avatar-comment" src="<?= $comment->avatarModel()->avatar() ?>" alt="avatar">
         </div>
       <div class="media-body">
         <h5 class="mt-0">
-        <?php
-        $usr = $userManager->getUser($comment->author());
-        echo $usr->surname();
-        ?>
-        <?= $usr->name(); ?>
+        <?= $comment->authorModel()->name() ?> <?= $comment->authorModel()->surname() ?>
         </h5>
         <?= $comment->content() ?>
         <br>

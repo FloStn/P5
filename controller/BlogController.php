@@ -11,18 +11,20 @@ function listPosts()
 
   $_GET['page'] = intval($_GET['page']);
   $currentPage = $_GET['page'];
-  $postsByPage = 4;
-  $totalPosts = $postManager->getPostsNumber();
+  $postsByPage = 10;
+  $totalPosts = $postManager->getPostsCount();
   
   $totalPages = ceil($totalPosts/$postsByPage);
   if($_GET['page'] <= $totalPages)
   {
     $start = ($currentPage-1)*$postsByPage;
+    $posts = $postManager->getPosts($start, $postsByPage);
+    require('view/blogHomeView.php');
   }
-
-  $posts = $postManager->getPosts($start, $postsByPage);
-
-  require('view/blogHomeView.php');
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function post()
@@ -32,18 +34,34 @@ function post()
   $commentManager = new CommentManager();
   $userManager = new UserManager();
 
-  $post = $postManager->getPost($_GET['id']);
-  $comments = $commentManager->getComments($_GET['id']);
-  //$user = $userManager->getUser($_SESSION['user']);
-  require('./view/blogPostView.php');
+  $_GET['id'] = intval($_GET['id']);
+  $totalPosts = $postManager->getPostsCount();
+  if($_GET['id'] <= $totalPosts)
+  {
+    $post = $postManager->getPost($_GET['id']);
+    $author = $userManager->getUser($post->author());
+    $comments = $commentManager->getComments($_GET['id']);
+    require('view/blogPostView.php');
+  }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function addComment()
 {
-  session_start();
-  $commentManager = new CommentManager();
-  $content = $_POST['comment'];
-  $author = $_SESSION['user'];
-  $post = $_GET['idPost'];
-  $commentManager->add($content, $author, $post);
+    $content = htmlspecialchars($_POST['comment']);
+    if(!empty($content))
+    {
+      $commentManager = new CommentManager();
+      $author = $_SESSION['user'];
+      $post = intval($_GET['idPost']);
+      $commentManager->add($content, $author, $post);
+      header("Location: index.php?action=post&id=$post&state=success");
+    }
+    else
+    {
+      header("Location: index.php");
+    }
 }

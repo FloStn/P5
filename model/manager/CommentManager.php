@@ -48,45 +48,56 @@ class CommentManager extends Manager
     $req->closeCursor();
   }
 
-  public function getTitlePostsComments()
-  {
-    $db = $this->dbConnect();
-    $req = $db->prepare('SELECT comments.*,posts.title FROM comments JOIN posts ON comments.post = posts.idPost');
-    $req->execute(array(
-    'post' => $post));
-    $result = $req->fetch();
-
-    $req->closeCursor();
-    return $result;
-  }
-
   public function getAllComments()
   {
     $db = $this->dbConnect();
-    $req = $db->query('SELECT idCmt, content, author, post, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i %ssec\') AS addDateTimeFr, state FROM comments ORDER BY addDateTimeFr DESC');
-    $comment = [];
+    $req = $db->query('SELECT comments.idCmt, comments.content, comments.author, comments.post, DATE_FORMAT(comments.addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, comments.state, users.name, users.surname, posts.title FROM comments JOIN users ON comments.author = users.idUser JOIN posts ON comments.post = posts.idPost ORDER BY addDateTimeFr DESC');
+    
+    $comments = [];
     foreach($req->fetchAll() as $row)
     {
-    $commentModel = new CommentModel($row);
-    $comment[] = $commentModel;
+      $commentModel = new CommentModel($row);
+      $userModel = new UserModel($row);
+      $postModel = new PostModel($row);
+      $commentModel->setAuthorModel($userModel);
+      $commentModel->setTitleModel($postModel);
+      $comments[] = $commentModel;
     }
     $req->closeCursor();
-    return $comment;
+    return $comments;
   }
 
   public function getComments($idPost)
   {
     $db = $this->dbConnect();
-    $req = $db->prepare('SELECT idCmt, content, author, post, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, state FROM comments WHERE post = :post ORDER BY addDateTimeFr ASC');
+    $req = $db->prepare('SELECT idCmt, content, author, post, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, state, users.name, users.surname, users.avatar FROM comments JOIN users ON comments.author = users.idUser WHERE post = :post ORDER BY addDateTimeFr DESC');
     $req->execute(array(
       ':post' => $idPost));
     $comment = [];
     foreach($req->fetchAll() as $row)
     {
-    $commentModel = new CommentModel($row);
-    $comment[] = $commentModel;
+      $commentModel = new CommentModel($row);
+      $userModel = new UserModel($row);
+      $commentModel->setAuthorModel($userModel);
+      $commentModel->setAvatarModel($userModel);
+      $comment[] = $commentModel;
     }
     $req->closeCursor();
     return $comment;
+  }
+
+  public function getAuthorModel($comment)
+  {
+    $db = $this->dbConnect();
+    $req = $db->prepare('SELECT comments.*,users.name, users.surname FROM comments JOIN users ON comments.author = users.idUser WHERE comments.idCmt = ?');
+    $req->execute(array(
+    'comment' => $comment));
+    $post = $req->fetch();
+
+    $commentModel = new CommentModel($comment);
+    $userModel = new UserModel($comment);
+    $commentModel->setAuthorModel($userModel);
+    $req->closeCursor();
+    return $commentModel;
   }
 }

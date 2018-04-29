@@ -8,7 +8,9 @@ class CommentModel
   private $_post;
   private $_addDateTime;
   private $_state;
-  //private $_titlePost;
+  private $_authorModel;
+  private $_titleModel;
+  private $_avatarModel;
 
   public function __construct(array $donnees)
   {
@@ -67,9 +69,19 @@ class CommentModel
     }
   }
 
-  public function titlePost()
+  public function authorModel()
   {
-    return $this->_titlePost;
+    return $this->_authorModel;
+  }
+
+  public function titleModel()
+  {
+    return $this->_titleModel;
+  }
+
+  public function avatarModel()
+  {
+    return $this->_avatarModel;
   }
 
   public function setIdCmt($idCmt)
@@ -105,11 +117,18 @@ class CommentModel
     $this->_state = (int) $state;
   }
 
-  /*public function setTitlePost($titlePost)
+  public function setAuthorModel($authorModel)
   {
-    if (is_string($titlePost))
-    {
-      $this->_titlePost = $titlePost;
-    }
-  }*/
+    $this->_authorModel = $authorModel;
+  }
+
+  public function setTitleModel($titleModel)
+  {
+    $this->_titleModel = $titleModel;
+  }
+
+  public function setAvatarModel($avatarModel)
+  {
+    $this->_avatarModel = $avatarModel;
+  }
 }

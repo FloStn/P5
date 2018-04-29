@@ -10,25 +10,31 @@ try
   {
     if ($_GET['action'] == 'listPosts')
     {
-      //if(isset($_GET['page']) AND !empty($_GET['page']) AND $_GET['page'] > 0)
-      //{
-
-      //}
-      //else
-      //{
-         
-      //}
       listPosts();
     }
     elseif ($_GET['action'] == 'post')
     {
       if (isset($_GET['id']) && $_GET['id'] > 0)
       {
-        post();
+        if (isset($_GET['state']))
+        {
+          if ($_GET['state'] == 'error' || $_GET['state'] == 'success')
+          {
+            post();
+          }
+          else
+          {
+            header("Location: index.php");
+          }
+        }
+        else
+        {
+          post();
+        }
       }
       else
       {
-        throw new Exception('Aucun identifiant envoyé');
+        header("Location: index.php");
       }
     }
     elseif ($_GET['action'] == 'signup_view')
@@ -45,7 +51,6 @@ try
           else
           {
             header("Location: index.php");
-            exit();
           }
         }
         else
@@ -279,13 +284,22 @@ try
     }
     elseif ($_GET['action'] == 'newComment')
     {
-      if (isset($_GET['idPost']) && $_GET['idPost'] > 0)
+      session_start();
+      if (isset($_SESSION['user']))
       {
-        addComment();
+        if (isset($_GET['idPost']) && $_GET['idPost'] > 0)
+        {
+          addComment();
+        }
+        else
+        {
+          header("Location: index.php");
+        }
       }
       else
       {
-        throw new Exception('Aucun identifiant envoyé');
+        $post = intval($_GET['idPost']);
+        header("Location: index.php?action=post&id=$post&state=error");
       }
     }
     elseif ($_GET['action'] == 'userUpdate')
