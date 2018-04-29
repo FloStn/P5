@@ -139,7 +139,7 @@ function blogPostUpdate()
   }
   
   $postManager->setLastModifDateTime($post);
-  header("index.php?action=adminBlogPostsList&page=1");
+  header("Location: index.php?action=adminBlogPostsList&page=1");
 }
 
 function blogPostNewEdit()
@@ -195,12 +195,20 @@ function addPost()
 
 function blogPostDelete()
 {
-  session_start();
   $postManager = new PostManager();
   $commentManager = new CommentManager();
-  $idPost = $_GET['id'];
-  $commentManager->commentsDeleteByPost($idPost);
-  $postManager->postDelete($idPost);
+  $idPost = intval($_GET['id']);
+  $post = $postManager->getPost($idPost);
+  if(!empty($post))
+  {
+    $commentManager->commentsDeleteByPost($idPost);
+    $postManager->postDelete($idPost);
+    header("Location: index.php?action=adminBlogPostsList&page=1");
+  }
+  else
+  {
+    header("Location: index.php");
+  }
 }
 
 function getCommentsList()
