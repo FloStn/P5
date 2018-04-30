@@ -236,7 +236,6 @@ function getCommentsList()
 
 function userEdit()
 {
-  session_start();
   $userManager = new UserManager();
   $admin = $userManager->getUser($_SESSION['user']);
   $editUser = $userManager->getUser($_GET['id']);

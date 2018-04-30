@@ -371,13 +371,28 @@ try
     }
     elseif ($_GET['action'] == 'adminUserEdit')
     {
-      if (isset($_GET['id']) && $_GET['id'] > 0)
+      session_start();
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
-        userEdit();
+        if ($_SESSION['role'] == 'Administrateur')
+        {
+          if (isset($_GET['id']) && $_GET['id'] > 0)
+          {
+            userEdit();
+          }
+          else
+          {
+            header("Location: index.php");
+          }
+        }
+        else
+        {
+          header("Location: index.php");
+        }
       }
       else
       {
-        throw new Exception('Aucun identifiant envoyé');
+        header("Location: index.php");
       }
     }
     elseif ($_GET['action'] == 'adminUserDelete')
