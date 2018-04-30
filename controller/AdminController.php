@@ -245,29 +245,29 @@ function userEdit()
 
 function userUpdate()
 {
-  session_start();
   $userManager = new UserManager();
-  $idUser = $_GET['id'];
+  $idUser = intval($_GET['id']);
   $updateUser = $userManager->getUser($_GET['id']);
 
   if(isset($_POST['surname']))
   {
     if(!empty($_POST['surname']))
     {
-      if($_POST['surname'] != $updateUser->surname())
+      $surname = htmlspecialchars($_POST['surname']);
+      if($surname != $updateUser->surname())
       {
-        $surname = $_POST['surname'];
         $userManager->setSurname($surname, $idUser);
       }
     }
   }
+
   if(isset($_POST['name']))
   {
     if(!empty($_POST['name']))
     {
-      if($_POST['name'] != $updateUser->name())
+      $name = htmlspecialchars($_POST['name']);
+      if($name != $updateUser->name())
       {
-        $name = $_POST['name'];
         $userManager->setName($name, $idUser);
       }
     }
@@ -276,32 +276,35 @@ function userUpdate()
   {
     if(!empty($_POST['email']))
     {
-      if($_POST['email'] != $updateUser->email())
+      $email = htmlspecialchars($_POST['email']);
+      if($email != $updateUser->email())
       {
-        $email = $_POST['email'];
         $userManager->setEmail($email, $idUser);
       }
     }
   }
   if(isset($_POST['role']))
   {
-    if($_POST['role'] == 0 || $_POST['role'] == 1)
+    $role = htmlspecialchars($_POST['role']);
+    if($role == 0 || $role == 1)
     {
-      if($_POST['role'] == 0)
+      if($role == 0)
       {
-        $role = "Utilisateur";
+        $role_str = "Utilisateur";
       }
       else
       {
-        $role = "Administrateur";
+        $role_str = "Administrateur";
       }
-      if($role != $updateUser->role())
+
+      if($role_str != $updateUser->role())
       {
-      $role = $_POST['role'];
-      $userManager->setRole($role, $idUser);
+        $userManager->setRole($role, $idUser);
       }
     }
   }
+
+  header("Location: index.php?action=adminUsersList");
 }
 
 function userDelete()
