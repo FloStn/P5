@@ -226,16 +226,11 @@ function blogPostDelete()
 
 function getCommentsList()
 {
-  session_start();
   $commentManager = new CommentManager();
   $userManager = new UserManager();
   $admin = $userManager->getUser($_SESSION['user']);
   $comments = $commentManager->getAllComments();
-  /*$postManager = new PostManager();
-  foreach($comments->title() as $row)
-  {
-    $postManager->
-  }*/
+
   require('view/commentsListView.php');
 }
 
