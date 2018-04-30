@@ -66,7 +66,7 @@ try
     elseif ($_GET['action'] == 'signup')
     {
       session_start();
-      if (!isset($_SESSION['user']))
+      if (!isset($_SESSION['user']) && !isset($_SESSION['role']))
       {
         signUp();
       }
@@ -104,7 +104,7 @@ try
     elseif ($_GET['action'] == 'signin')
     {
       session_start();
-      if (!isset($_SESSION['user']))
+      if (!isset($_SESSION['user']) && !isset($_SESSION['role']))
       {
       signIn();
       }
@@ -116,7 +116,7 @@ try
     elseif ($_GET['action'] == 'deconnection')
     {
       session_start();
-      if (isset($_SESSION['user']))
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
         deconnection();
       }
@@ -154,7 +154,7 @@ try
     elseif ($_GET['action'] == 'forgotPassword')
     {
       session_start();
-      if (!isset($_SESSION['user']))
+      if (!isset($_SESSION['user']) && !isset($_SESSION['role']))
       {
         forgotPassword();
       }
@@ -166,7 +166,7 @@ try
     elseif ($_GET['action'] == 'my_account')
     {
       session_start();
-      if (isset($_SESSION['user']))
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
         if (isset($_GET['state']))
         {
@@ -503,7 +503,7 @@ try
     elseif ($_GET['action'] == 'updateAccount')
     {
       session_start();
-      if (isset($_SESSION['user']))
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
         updateAccount();
       }
