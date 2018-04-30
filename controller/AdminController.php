@@ -91,19 +91,19 @@ function blogPostUpdate()
 
   if(isset($_FILES['image']) && !empty($_FILES['image']['name']))
   {
-    $tailleMax = 2097152;
+    $sizeMax = 2097152;
     $extensionsValides = array('jpg');
-    if($_FILES['image']['size'] <= $tailleMax)
+    if($_FILES['image']['size'] <= $sizeMax)
     {
       $extensionUpload = strtolower(substr(strrchr($_FILES['image']['name'], '.'), 1));
       if(in_array($extensionUpload, $extensionsValides))
       {
         $path = "./public/images/blog/posts/img-".$post.".".$extensionUpload;
-        $resultat = move_uploaded_file($_FILES['image']['tmp_name'], $path);
+        $result = move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
         resize_img($path, 1920, 1086);
 
-         if($resultat)
+         if($result)
          {
            $postManager->setImg($post, $path);
          }
@@ -151,7 +151,6 @@ function blogPostNewEdit()
 
 function addPost()
 {
-  session_start();
   $postManager = new PostManager();
   $title = $_POST['title'];
   $chapo = $_POST['chapo'];
@@ -159,37 +158,52 @@ function addPost()
   $author = $_SESSION['user'];
   $img = "./public/images/blog/posts/default.jpg";
 
-  $postManager->postCreate($title, $chapo, $content, $author, $img);
-  $post = $postManager->getPostByTitle($title);
+  if(isset($title) && isset($chapo) && isset($content) && !empty($title) && !empty($chapo) && !empty($content))
+  {
+    $postManager->postCreate($title, $chapo, $content, $author, $img);
+    $post = $postManager->getPostByTitle($title);
+  }
+  else
+  {
+    throw new Exception("Tous les champs doivent être remplis.");
+    exit();
+  }
 
   if(isset($_FILES['image']) && !empty($_FILES['image']['name']))
   {
-    $tailleMax = 2097152;
+    $sizeMax = 2097152;
     $extensionsValides = array('jpg');
-    if($_FILES['image']['size'] <= $tailleMax)
+    if($_FILES['image']['size'] <= $sizeMax)
     {
       $extensionUpload = strtolower(substr(strrchr($_FILES['image']['name'], '.'), 1));
       if(in_array($extensionUpload, $extensionsValides))
       {
         $path = "./public/images/blog/posts/".$post->idPost().".".$extensionUpload;
-        $resultat = move_uploaded_file($_FILES['image']['tmp_name'], $path);
+        $result = move_uploaded_file($_FILES['image']['tmp_name'], $path);
 
-        // PAGE REDIMENSION.PHP
+        resize_img($path, 1920, 1086);
 
-        redimensionner_image($path, 1920, 1086);
-
-        if($resultat)
+        if($result)
         {
           $postManager->setImg($post->idPost(), $path);
         }
-     }
-   }
+        else
+        {
+          throw new Exception("Un problème a été rencontré pendant l'importation de l'image.");
+        }
+      }
+      else
+      {
+        throw new Exception("L'extension du fichier n'est pas valide. Seule une image de format JPG, JPEG, PNG ou GIF est autorisée.");
+      }
+    }
+    else
+    {
+      throw new Exception("Le poids de l'image doit être inférieur à 2 MO.");
+    }
   }
-  /*else
-  {
-    $postManager->setImg($post, $img);
-  }*/
 
+  header("Location: index.php?action=adminBlogPostsList&page=1");
 }
 
 function blogPostDelete()
