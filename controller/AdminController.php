@@ -309,12 +309,20 @@ function userUpdate()
 
 function userDelete()
 {
-  session_start();
   $userManager = new UserManager();
   $commentManager = new CommentManager();
-  $idUser = $_GET['id'];
-  $commentManager->commentsDeleteByUser($idUser);
-  $userManager->userDelete($idUser);
+  $idUser = intval($_GET['id']);
+
+  if(!empty($userManager->getUser($idUser)))
+  {
+    $commentManager->commentsDeleteByUser($idUser);
+    $userManager->userDelete($idUser);
+    header("Location: index.php?action=adminUsersList");
+  }
+  else
+  {
+    header("Location: index.php?action=adminUsersList");
+  }
 }
 
 function setCommentState()

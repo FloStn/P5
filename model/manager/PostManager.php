@@ -139,14 +139,17 @@ class PostManager extends Manager
     $db = $this->dbConnect();
     $req = $db->prepare('SELECT idPost, img, title, chapo, author, content, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, DATE_FORMAT(lastModifDateTime, \'%d/%m/%Y à %Hh%i\') AS lastModifDateTimeFr FROM posts WHERE idPost = ?');
     $req->execute(array($idPost));
+    
     if($req->rowCount() > 0)
     {
       $post = $req->fetch();
       $postModel = new PostModel($post);
+      $req->closeCursor();
       return $postModel;
     }
     else
     {
+      $req->closeCursor();
       return;
     }
   }

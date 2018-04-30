@@ -11,12 +11,19 @@ class UserManager extends Manager
     $req = $db->prepare('SELECT idUser, name, surname, email, password, avatar, role FROM users WHERE idUser = :idUser');
     $req->execute(array(
       'idUser' => $idUser));
-    $user = $req->fetch();
-    $userModel = new UserModel($user);
-
-    $req->closeCursor();
-
-    return $userModel;
+    
+    if($req->rowCount() > 0)
+    {
+      $user = $req->fetch();
+      $userModel = new UserModel($user);
+      return $userModel;
+      $req->closeCursor();
+    }
+    else
+    {
+      $req->closeCursor();
+      return;
+    }
   }
 
   public function userDelete($user)
