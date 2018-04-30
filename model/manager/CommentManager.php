@@ -86,6 +86,27 @@ class CommentManager extends Manager
     return $comment;
   }
 
+  public function getComment($idComment)
+  {
+    $db = $this->dbConnect();
+    $req = $db->prepare('SELECT idCmt, content, author, post, DATE_FORMAT(addDateTime, \'%d/%m/%Y à %Hh%i\') AS addDateTimeFr, state, users.name, users.surname, users.avatar FROM comments JOIN users ON comments.author = users.idUser WHERE idCmt = :comment ORDER BY addDateTimeFr DESC');
+    $req->execute(array(
+      ':comment' => $idComment));
+
+    if($req->rowCount() > 0)
+    {
+      $comment = $req->fetch();
+      $commentModel = new CommentModel($comment);
+      $req->closeCursor();
+      return $commentModel;
+    }
+    else
+    {
+      $req->closeCursor();
+      return;
+    }
+  }
+
   public function getAuthorModel($comment)
   {
     $db = $this->dbConnect();

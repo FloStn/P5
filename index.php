@@ -423,20 +423,35 @@ try
     }
     elseif ($_GET['action'] == 'adminCommentState')
     {
-      if (isset($_GET['id']) && $_GET['id'] > 0)
+      session_start();
+      if (isset($_SESSION['user']) && isset($_SESSION['role']))
       {
-        if (isset($_GET['state']) && $_GET['state'] == 0 || $_GET['state'] == 1)
+        if ($_SESSION['role'] == 'Administrateur')
         {
-          setCommentState();
+          if (isset($_GET['id']) && $_GET['id'] > 0)
+          {
+            if (isset($_GET['state']) && $_GET['state'] == 0 || $_GET['state'] == 1)
+            {
+              setCommentState();
+            }
+            else
+            {
+              header("Location: index.php");
+            }
+          }
+          else
+          {
+            header("Location: index.php");
+          }
         }
         else
         {
-          throw new Exception('Aucun identifiant envoyé');
+          header("location: index.php");
         }
       }
       else
       {
-        throw new Exception('Aucun identifiant envoyé');
+        header("Location: index.php");
       }
     }
     elseif ($_GET['action'] == 'newComment')

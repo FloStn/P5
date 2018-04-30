@@ -327,10 +327,17 @@ function userDelete()
 
 function setCommentState()
 {
-  session_start();
   $commentManager = new CommentManager();
-  $idCmt = $_GET['id'];
-  $state = $_GET['state'];
-  $commentManager->setState($idCmt, $state);
-  header('Location: http://127.0.0.1/Blog/index.php?action=adminCommentsList');
+  $idCmt = intval($_GET['id']);
+  $state = intval($_GET['state']);
+
+  if(!empty($commentManager->getComment($idCmt)))
+  {
+    $commentManager->setState($idCmt, $state);
+    header("Location: index.php?action=adminCommentsList");
+  }
+  else
+  {
+    header("Location: index.php?action=adminCommentsList");
+  }
 }
