@@ -249,11 +249,15 @@ function userUpdate()
   $idUser = intval($_GET['id']);
   $updateUser = $userManager->getUser($_GET['id']);
 
-  if(isset($_POST['surname']))
+  $surname = htmlspecialchars($_POST['surname']);
+  $name = htmlspecialchars($_POST['name']);
+  $email = htmlspecialchars($_POST['email']);
+  $role = htmlspecialchars($_POST['role']);
+
+  if(isset($surname))
   {
-    if(!empty($_POST['surname']))
+    if(!empty($surname))
     {
-      $surname = htmlspecialchars($_POST['surname']);
       if($surname != $updateUser->surname())
       {
         $userManager->setSurname($surname, $idUser);
@@ -261,31 +265,28 @@ function userUpdate()
     }
   }
 
-  if(isset($_POST['name']))
+  if(isset($name))
   {
-    if(!empty($_POST['name']))
+    if(!empty($name))
     {
-      $name = htmlspecialchars($_POST['name']);
       if($name != $updateUser->name())
       {
         $userManager->setName($name, $idUser);
       }
     }
   }
-  if(isset($_POST['email']))
+  if(isset($email))
   {
-    if(!empty($_POST['email']))
+    if(!empty($email))
     {
-      $email = htmlspecialchars($_POST['email']);
       if($email != $updateUser->email())
       {
         $userManager->setEmail($email, $idUser);
       }
     }
   }
-  if(isset($_POST['role']))
+  if(isset($role))
   {
-    $role = htmlspecialchars($_POST['role']);
     if($role == 0 || $role == 1)
     {
       if($role == 0)
