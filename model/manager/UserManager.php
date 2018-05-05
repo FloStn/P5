@@ -5,6 +5,20 @@ require_once("model/UserModel.php");
 
 class UserManager extends Manager
 {
+  public function getUsersList()
+  {
+    $db = $this->dbConnect();
+    $req = $db->query('SELECT idUser, name, surname, email, role FROM users ORDER BY idUser ASC');
+    $user = [];
+    foreach($req->fetchAll() as $row)
+    {
+    $userModel = new UserModel($row);
+    $user[] = $userModel;
+    }
+    $req->closeCursor();
+    return $user;
+  }
+
   public function getUser($idUser)
   {
     $db = $this->dbConnect();
@@ -94,7 +108,6 @@ class UserManager extends Manager
 
   public function genPassword($size)
   {
-    // Initialisation des caractères utilisables
     $characters = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
     $password = "";
 

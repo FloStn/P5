@@ -680,7 +680,7 @@ $jsFiles = ['<script src="./public/js/blog/jquery.js"></script>',
           <div class="col-md-6">
             <div class="contact-form">
               <strong>Send me a message</strong>
-              <form name="contact-form" id="contactForm" action="sendemail.php" method="POST">
+              <form name="contact-form" id="contactForm" action="/helper/contact.php" method="POST">
 
                 <div class="form-group">
                   <label for="surname">Nom</label>

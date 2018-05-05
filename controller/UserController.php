@@ -2,7 +2,9 @@
 
 require_once('model/manager/UserManager.php');
 
-function signUp()
+class UserController
+{
+ public function signup()
 {
   if(isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['password']))
   {
@@ -37,7 +39,7 @@ function signUp()
   }
 }
 
-function signIn()
+public function signin()
 {
   if(isset($_POST['email']) && isset($_POST['password']))
   {
@@ -81,7 +83,7 @@ function signIn()
   }
 }
 
-function deconnection()
+public function deconnection()
 {
   session_unset('user');
   session_unset('role');
@@ -89,7 +91,7 @@ function deconnection()
   header("Location: index.php");
 }
 
-function forgotPassword()
+public function forgotPassword()
 {
   if(isset($_POST['email']) && !empty($_POST['email']))
   {
@@ -131,14 +133,14 @@ function forgotPassword()
   }
 }
 
-function getInfos()
+public function account()
 {
   $userManager = new UserManager();
   $user = $userManager->getUser($_SESSION['user']);
   require("./view/accountView.php");
 }
 
-function updateAccount()
+public function updateAccount()
 {
   $userManager = new UserManager();
   $user = $_SESSION['user'];
@@ -254,4 +256,107 @@ function updateAccount()
   }
   
   header("Location: index.php?action=my_account&state=success");
+}
+
+public function usersList()
+{
+  $userManager = new UserManager();
+
+  $users = $userManager->getUsersList();
+  $admin = $userManager->getUser($_SESSION['user']);
+
+  require('view/usersListView.php');
+}
+
+public function userEdit()
+{
+  $userManager = new UserManager();
+  $admin = $userManager->getUser($_SESSION['user']);
+  $editUser = $userManager->getUser($_GET['id']);
+
+  require('view/userEditView.php');
+}
+
+public function userUpdate()
+{
+  $userManager = new UserManager();
+  $idUser = intval($_GET['id']);
+  $updateUser = $userManager->getUser($_GET['id']);
+
+  $surname = htmlspecialchars($_POST['surname']);
+  $name = htmlspecialchars($_POST['name']);
+  $email = htmlspecialchars($_POST['email']);
+  $role = htmlspecialchars($_POST['role']);
+
+  if(isset($surname))
+  {
+    if(!empty($surname))
+    {
+      if($surname != $updateUser->surname())
+      {
+        $userManager->setSurname($surname, $idUser);
+      }
+    }
+  }
+
+  if(isset($name))
+  {
+    if(!empty($name))
+    {
+      if($name != $updateUser->name())
+      {
+        $userManager->setName($name, $idUser);
+      }
+    }
+  }
+  if(isset($email))
+  {
+    if(!empty($email))
+    {
+      if($email != $updateUser->email())
+      {
+        $userManager->setEmail($email, $idUser);
+      }
+    }
+  }
+  if(isset($role))
+  {
+    if($role == 0 || $role == 1)
+    {
+      if($role == 0)
+      {
+        $role_str = "Utilisateur";
+      }
+      else
+      {
+        $role_str = "Administrateur";
+      }
+
+      if($role_str != $updateUser->role())
+      {
+        $userManager->setRole($role, $idUser);
+      }
+    }
+  }
+
+  header("Location: index.php?action=adminUsersList");
+}
+
+public function userDelete()
+{
+  $userManager = new UserManager();
+  $commentManager = new CommentManager();
+  $idUser = intval($_GET['id']);
+
+  if(!empty($userManager->getUser($idUser)))
+  {
+    $commentManager->commentsDeleteByUser($idUser);
+    $userManager->userDelete($idUser);
+    header("Location: index.php?action=adminUsersList");
+  }
+  else
+  {
+    header("Location: index.php?action=adminUsersList");
+  }
+}
 }
