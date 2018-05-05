@@ -29,6 +29,7 @@ public function listPosts()
 
 public function post()
 {
+  session_start();
   $postManager = new PostManager();
   $commentManager = new CommentManager();
   $userManager = new UserManager();

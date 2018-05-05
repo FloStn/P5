@@ -11,9 +11,16 @@ class Router
     {
       if ($_GET['action'] == 'listPosts')
       {
-        session_start();
-        $controller = new BlogController();
-        $controller->listPosts();
+        if(isset($_GET['page']) && $_GET['page'] > 0)
+        {
+          session_start();
+          $controller = new BlogController();
+          $controller->listPosts();
+        }
+        else
+        {
+          header("Location: index.php?action=listPosts&page=1");
+        }
       }
       elseif ($_GET['action'] == 'post')
       {
@@ -23,7 +30,6 @@ class Router
           {
             if ($_GET['state'] == 'error' || $_GET['state'] == 'success')
             {
-              session_start();
               $controller = new BlogController();
               $controller->post();
             }
@@ -34,7 +40,6 @@ class Router
           }
           else
           {
-            session_start();
             $controller = new BlogController();
             $controller->post();
           }
@@ -481,6 +486,7 @@ class Router
       elseif ($_GET['action'] == 'newComment')
       {
         session_start();
+        $post = $_GET['idPost'];
         if (isset($_SESSION['user']))
         {
           if (isset($_GET['idPost']) && $_GET['idPost'] > 0)
@@ -495,7 +501,7 @@ class Router
         }
         else
         {
-          throw new Exception("Vous devez être connecté pour pouvoir commenter un article.");
+          header("Location: index.php?action=post&id=$post&state=error");
         }
       }
       elseif ($_GET['action'] == 'userUpdate')

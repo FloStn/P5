@@ -59,7 +59,7 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
   <div class="container">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <blockquote class="blockquote">
-        <h6><?= $post->chapo() ?></h6>
+        <p><?= $post->chapo() ?></p>
       </blockquote>
     </div>
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -98,7 +98,20 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
       <div class="card-body">
         <form action="index.php?action=newComment&idPost=<?= $_GET['id'] ?>" method="POST">
           <div class="form-group">
+            <?php
+            if(isset($_SESSION['user']))
+            {
+            ?>
             <textarea class="form-control" rows="3" name="comment"></textarea>
+            <?php
+            }
+            else
+            {
+            ?>
+              <textarea class="form-control" rows="3" name="comment" placeholder="(Vous devez être connecté pour pouvoir commenter un article)."></textarea>
+            <?php
+            }
+            ?>
           </div>
           <button type="submit" class="btn btn-primary">Publier</button>
         </form>

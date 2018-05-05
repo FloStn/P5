@@ -34,7 +34,7 @@ $cssFiles = ['<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,
           <div class="row">
             <div class="col-md-12">
               <div class="count-wrap">
-                  <h2 class="section-blog-title wow fadeInUp">Mon compte</h2>
+                  <h2 class="section-blog-title wow fadeInUp">Informations personnelles</h2>
               </div><!-- /.count-wrap -->
             </div><!-- /.col-md-12 -->
           </div><!-- /.row -->
@@ -58,14 +58,14 @@ $cssFiles = ['<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,
                 ?>
                     <div class="alert alert-info" role="alert">
                         <h4 class="alert-heading">Félicitations</h4>
-                        <p>Vos informations ont été mises à jour !</p>
+                        <p>Votre profil a été mis à jour !</p>
                     </div>
                 <?php
                   }
                 }
                 ?>
 
-              <div class="myphoto">
+              <div class="row">
                 <img src="<?= $user->avatar() ?>" width="100%" height="100%" alt="">
               </div>
 

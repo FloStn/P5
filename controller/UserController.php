@@ -103,7 +103,8 @@ public function forgotPassword()
       $from_email = 'flo.stein9578@yahoo.fr';
       $name = $user->name();
       $size_password = 12;
-      $new_password = $userManager->genPassword($size_password);
+      require("helper/password_gen.php");
+      $new_password = genPassword($size_password);
       $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
     
       $emailTo = $email;

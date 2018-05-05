@@ -1,7 +1,5 @@
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
 	<meta charset="UTF-8">
@@ -26,7 +24,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <link rel="shortcut icon" href="../public/images/home/ico/favicon.png">
+  <link rel="shortcut icon" href="public/images/home/ico/favicon.png">
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="public/images/home/ico/apple-touch-icon-144-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="public/images/home/ico/apple-touch-icon-114-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="public/images/home/ico/apple-touch-icon-72-precomposed.png">
@@ -57,17 +55,12 @@
     <!-- Home Section -->
     <section id="home" class="tt-fullHeight" data-stellar-vertical-offset="50" data-stellar-background-ratio="0.2">
       <div class="intro">
-        <div class="intro-sub">I am X</div>
-        <h1>Creative <span>Designer</span></h1>
-        <p>I am a fully professional freelance creative User Interface Designer &amp; Developer<br> Involving with latest web designing and technologies is a great <br> feel free to contact creative.</p>
-
+        <h1>Développeur <span>PHP/Symfony</span></h1>
+        
         <div class="social-icons">
           <ul class="list-inline">
-            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/florian-stein-742902144/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/FloStn" target="_blank"><i class="fa fa-github"></i></a></li>
           </ul>
         </div> <!-- /.social-icons -->
       </div>
@@ -100,12 +93,10 @@ if($navbar == true)
 
 				<div class="collapse navbar-collapse" id="custom-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#home">Accueil</a></li>
-						<li><a href="#about">CV</a></li>
-						<li><a href="#skills">Compétences</a></li>
-						<li><a href="#works">Projets</a></li>
-						<li><a href="#blog">Blog</a></li>
-            <li><a href="#contact">Contact</a></li>
+						<li><a href="index.php#home">Accueil</a></li>
+						<li><a href="index.php#about">A propos de moi</a></li>
+						<li><a href="index.php?action=listPosts&page=1">Blog</a></li>
+            <li><a href="index.php#contact">Me contacter</a></li>
 						<?php
             if(isset($_SESSION['user']))
             {
@@ -113,7 +104,7 @@ if($navbar == true)
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon compte<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="index.php?action=my_account">Espace personnel</a></li>
+                <li><a href="index.php?action=my_account">Informations personnelles</a></li>
 								<li><a href="index.php?action=deconnection">Déconnexion</a></li>
               </ul>
             </li>
@@ -148,8 +139,16 @@ if($footer == true)
         <div class="row">
           <div class="col-md-12">
             <div class="copyright text-center">
-             Shared by <i class="fa fa-love"></i><a href="https://bootstrapthemes.co">BootstrapThemes</a>
-
+            Projet n°5 de Florian STEIN - Parcours DA PHP/Symfony - <a href="https://openclassrooms.com" target="_blank">OpenClassrooms</a>
+            <?php
+            if(isset($_SESSION['role']) == "Administrateur")
+            {
+            ?>
+              <br>
+              <a href="index.php?action=adminUsersList">Administrer le site</a>
+            <?php
+            }
+            ?>
             </div>
           </div>
         </div>

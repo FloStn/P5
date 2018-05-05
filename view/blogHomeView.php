@@ -58,7 +58,7 @@ $jsFiles = ['<script src="public/js/blog/jquery.js"></script>',
                 <h1 class="entry-title"><a href="#" rel=""><?= $post->title() ?></a></h1>
 								<br>
 								<blockquote class="blockquote">
-  								<h6><?= substr($post->chapo(), 0, 300) ?>...</h6>
+  								<p><?= substr($post->chapo(), 0, 200) ?>...</p>
 								</blockquote>
                 <div class="center">
                 <a class="btn custom-btn btn-primary" href="index.php?action=post&id=<?= $post->idPost() ?>">Lire la suite</a>

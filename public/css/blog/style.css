@@ -47,7 +47,7 @@ body, html{
 /* Link style
 ---------------------------------------------------------*/
 a {
-    color: #68c3a3;
+    color: #4fdbaa;
 }
 a,
 a > * {
@@ -58,7 +58,7 @@ a > * {
 a:focus,
 a:hover {
     outline: none;
-    color: #333333;
+    color: #68c3a3;
     text-decoration: none;
 }
 
@@ -130,7 +130,11 @@ h5 {
 }
 
 h6 {
-    font-size     : 12px;
+    font-size: 12px;
+}
+
+p {
+    font-size: 16px;
 }
 
 
@@ -1387,6 +1391,8 @@ Resume Timeline
     margin-top: 40px;
 }
 
+
+
 /*
 Icon for all respective meta
 ====================================== */
@@ -1534,8 +1540,8 @@ Icon for all respective meta
 
 .scroll-up a:hover,
 .scroll-up a:active {
-	background-color: rgba(235, 235, 235, .8);
-	color: #222;
+	background-color: #4fdbaa;
+	color: #fff;
 }
 
 /* ---------------------------------------------- /*
@@ -1821,7 +1827,7 @@ Icon for all respective meta
     margin-left: 100px;
 }
 
-.custom-btn{
+.custom-btn {
     border: 0;
     border-bottom: 3px solid;
     font-weight: 200;
@@ -1829,5 +1835,4 @@ Icon for all respective meta
     padding: 9px 22px;
     display: block;
     margin: auto;
-
 }
