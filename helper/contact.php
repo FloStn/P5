@@ -1,9 +1,7 @@
 <?php
 
-if(isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['message']))
+if(isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['email']) && isset($_POST['message']) && !empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['message']))
 {
-    if(!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['message']))
-    {
         $name = htmlspecialchars($_POST['name']);
         $surname = htmlspecialchars($_POST['surname']);
         $email = htmlspecialchars($_POST['email']);
@@ -26,7 +24,6 @@ if(isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['email']) &
         echo json_encode($result);
     
         die;
-    }
 }
 header("Refresh: 3; url=index.php");
 throw new Exception("Tous les champs sont requis ! Vous allez être redirigé vers l'acceuil dans 3 secondes...");

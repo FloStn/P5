@@ -50,7 +50,7 @@ class UserManager extends Manager
     $req->closeCursor();
   }
 
-  public function signUp($name, $surname, $email, $pass)
+  public function signup($name, $surname, $email, $pass)
   {
     $role = 0;
     $avatar = "./public/images/avatars/default.jpg";

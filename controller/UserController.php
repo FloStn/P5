@@ -20,7 +20,7 @@ class UserController
       if(empty($userManager->checkIfEmailExist($email)))
       {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $userManager->signUp($name, $surname, $email, $password_hash);
+        $userManager->signup($name, $surname, $email, $password_hash);
         header("Location: index.php?action=signup_view&state=success");
       }
       else
