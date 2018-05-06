@@ -18,7 +18,6 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for comments
 -- ----------------------------
-DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `idCmt` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(1000) NOT NULL,
@@ -36,7 +35,6 @@ CREATE TABLE `comments` (
 -- ----------------------------
 -- Table structure for posts
 -- ----------------------------
-DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `idPost` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(60) NOT NULL,
@@ -54,7 +52,6 @@ CREATE TABLE `posts` (
 -- ----------------------------
 -- Table structure for users
 -- ----------------------------
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `idUser` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
