@@ -5,7 +5,7 @@
 
 ## Installation
 
-To install this site, proceed as follows :
+To install this website, proceed as follows :
 * Put all files in your web folder,
 * Create a database,
 * Insert the file "SQL / structure.sql" there,
