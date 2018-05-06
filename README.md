@@ -9,7 +9,7 @@ To install this website, proceed as follows :
 * Put all files in your web folder,
 * Create a database,
 * Insert the file "SQL / structure.sql" there,
-* Configure the file "Manager.php" (in the folder "model / manager"),
+* Configure the file "model/manager/Manager.php",
 * Enter your email address in the file "helper / contact.php".
 
 ## About used themes
