@@ -15,15 +15,15 @@
                 '<link href="./public/css/admin/style.css" rel="stylesheet">',
                 '<link href="./public/css/admin/themes/all-themes.css" rel="stylesheet">'];
    
-                $jsFiles = ['<script src="./vendor/components/jquery/jquery.min.js"></script>',
-                           	'<script src="./vendor/twbs/bootstrap/dist/js/bootstrap.js"></script>',
-                           	'<script src="./vendor/bootstrap-select/bootstrap-select/dist/js/bootstrap-select.js"></script>',
-                            '<script src="./vendor/grimmlink/jquery-slimscroll/jquery.slimscroll.js"></script>',
-                             '<script src="./vendor/node-waves/waves.js"></script>',
-                             '<script src="./vendor/waitme/waitMe.js"></script>',
-                           '<script src="./public/js/admin/admin.js"></script>',
-                           '<script src="./public/js/admin/colored.js"></script>',
-                           '<script src="./public/js/admin/demo.js"></script>'];
+   $jsFiles = ['<script src="./vendor/components/jquery/jquery.min.js"></script>',
+               '<script src="./vendor/twbs/bootstrap/dist/js/bootstrap.js"></script>',
+               '<script src="./vendor/bootstrap-select/bootstrap-select/dist/js/bootstrap-select.js"></script>',
+               '<script src="./vendor/grimmlink/jquery-slimscroll/jquery.slimscroll.js"></script>',
+               '<script src="./vendor/node-waves/waves.js"></script>',
+               '<script src="./vendor/waitme/waitMe.js"></script>',
+               '<script src="./public/js/admin/admin.js"></script>',
+               '<script src="./public/js/admin/colored.js"></script>',
+               '<script src="./public/js/admin/demo.js"></script>'];
    ?>
 <?php ob_start(); ?>
 <section class="content">
@@ -34,7 +34,7 @@
       </div>
    </div>
    <br>
-   <!-- Basic Example -->
+   
    <div class="row clearfix">
       <?php
          foreach($posts as $post)
